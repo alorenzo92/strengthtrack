@@ -90,7 +90,7 @@ function rec(id,it,skip){const h=hist(id,skip),e=S.ex[id];if(!h.length)return{w:
  if(all)return{w:tw+e.inc,t:`All ${it.n} sets reached ${it.hi}+ reps at ${fw(tw)} ${U()} (effort OK). Add ${fw(e.inc)} ${U()}.`};
  return{w:tw,t:`Keep ${fw(tw)} ${U()} and add reps. Last: ${reps}. Increase after all ${it.n} sets reach ${it.hi}.`}}
 // ---- timer ----
-const mmss=s=>`${Math.floor(s/60)}:${pad(Math.ceil(s%60)%60+(Math.ceil(s%60)===60?0:0))}`;
+const mmss=s=>{const t=Math.ceil(s-1e-9);return`${Math.floor(t/60)}:${pad(t%60)}`};
 function startT(s){S.timer={end:Date.now()+s*1e3,tot:s,p:0,fired:0}}
 function beep(){try{const c=new (window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator();o.connect(c.destination);o.frequency.value=880;o.start();setTimeout(()=>o.stop(),400)}catch(e){}navigator.vibrate&&navigator.vibrate([200,100,200])}
 function tick(){const t=S&&S.timer,b=$('#tb');if(!t){b.hidden=true;return}b.hidden=false;const rem=t.p||Math.max(0,t.end-Date.now());$('#tt').textContent=mmss(rem/1e3);$('#tbar').style.width=(100-rem/(t.tot*10))+'%';if(!t.p&&rem<=0&&!t.fired){t.fired=1;save();beep()}}
